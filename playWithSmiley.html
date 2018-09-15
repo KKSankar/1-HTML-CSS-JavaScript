@@ -1,0 +1,76 @@
+<html>
+<head><title> Game Smiley - Karthika</title>
+<style>
+    img {
+        position:absolute;
+    }
+    div {
+        height: 500px;
+        width: 500px;
+        position:absolute;
+    }
+    #smileyLeftSection {
+        position:absolute;
+    }
+    #rightSmileySection {
+        left:500px;
+        position: absolute;
+        border-left: 2px solid black;
+    }
+    #wrapper{
+        color: green;
+        font-size: 50px;
+    }
+</style>
+</head>
+<body>
+        <div id="wrapper">
+            <div id="smileyLeftSection"><!--placeholder for left side smileys--></div>
+            <div id="rightSmileySection"><!--placeholder for right side smileys--></div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var smileyLeft = document.getElementById("smileyLeftSection");
+        var smileyRight = document.getElementById("rightSmileySection");
+        createSmiley();
+        function createSmiley() {
+
+            var numberOfFaces = 5;
+            for (i=1; i <= numberOfFaces; i++) {
+                topPos = Math.floor(Math.random() * Math.floor(400));
+                leftPos = Math.floor(Math.random() * Math.floor(400));
+                var img = document.createElement("img");
+                img.src = "smile.png";
+                img.style.left = leftPos + "px";
+                img.style.top =  topPos + "px";
+                smileyLeft.appendChild(img);
+            }
+        
+            var leftSmileyCopy = smileyLeft.cloneNode(true);
+            leftSmileyCopy.removeChild(leftSmileyCopy.lastChild);
+            smileyRight.appendChild(leftSmileyCopy);
+        
+            var theBody = document.getElementsByTagName("body")[0];
+        
+            smileyLeft.lastChild.onclick = function nextLevel(event){
+                event.stopPropagation();
+                numberOfFaces += 5;
+                createSmiley();
+            };
+        
+            theBody.onclick = function gameOver() {
+                alert("Game Over!");
+                theBody.onclick = null;
+                if (confirm('Would you like to try again?')) {
+                    smileyLeft.innerHTML = '';
+                    smileyRight.innerHTML = '';
+                    createSmiley();
+                } else {
+                    document.getElementById('wrapper').innerHTML='Have nice day';
+                }
+                smileyLeft.lastChild.onclick = null;
+            }
+        }
+        </script>
+</body>
+</html>
